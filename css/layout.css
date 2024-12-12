@@ -12,7 +12,9 @@
     }
 
 
-
+body {
+    overflow: hidden;
+}
 
 
 #body-canvas
