@@ -525,11 +525,11 @@ class GAME
         
         element.onmousedown= ()=>
         {   
-            this.leftRight=2;
-            this.doodleClicked=1;  
-            this.bullet=new Bullet(this.doodle.x+this.doodle.width/2,this.doodle.y,this.context);
-            this.bulletArray.push(this.bullet);
-            this.tapTimer=new Date();
+            // this.leftRight=2;
+            // this.doodleClicked=1;  
+            // this.bullet=new Bullet(this.doodle.x+this.doodle.width/2,this.doodle.y,this.context);
+            // this.bulletArray.push(this.bullet);
+            // this.tapTimer=new Date();
             
         }
 
