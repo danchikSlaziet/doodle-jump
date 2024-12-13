@@ -23,7 +23,7 @@ html, body {
     user-select: none; /* Современные браузеры */
 }
 
-button, a, input, textarea, img, canvas {
+* {
     -webkit-user-select: none;
     -webkit-touch-callout: none;
     outline: none;
