@@ -184,20 +184,20 @@ body {
 }
 
 .left-part {
-    width: 50%;
-    height: 50vh;
+    width: 100px;
     position: absolute;
-    top: 50px;
-    left: 0;
+    bottom: 20px;
+    left: 0px;
     z-index: 1;
+    opacity: .3;
 }
 .right-part {
-    width: 50%;
-    height: 50vh;
+    width: 100px;
     position: absolute;
-    top: 50px;
-    right: 0;
+    bottom: 20px;
+    right: 0px;
     z-index: 1;
+    opacity: .3;
 }
 .bottom-part {
     width: 100%;
@@ -206,4 +206,5 @@ body {
     left: 0;
     bottom: -50px;
     z-index: 1;
+    display: none;
 }
