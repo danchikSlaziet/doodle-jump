@@ -15,7 +15,19 @@
 body {
     overflow: hidden;
 }
+html, body {
+    margin: 0;
+    padding: 0;
+    -webkit-touch-callout: none; /* Убирает лупу и контекстное меню */
+    -webkit-user-select: none; /* Отключает выделение на iOS */
+    user-select: none; /* Современные браузеры */
+}
 
+button, a, input, textarea, img, canvas {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    outline: none;
+}
 
 #body-canvas
 {
