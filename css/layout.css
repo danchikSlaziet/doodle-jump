@@ -196,27 +196,48 @@ html, body {
 }
 
 .left-part {
-    width: 100px;
+    width: 61px;
     position: absolute;
     bottom: 20px;
-    left: 0px;
+    left: 39px;
     z-index: 1;
-    opacity: .3;
+    box-shadow: 0px 17.85px 25.44px 0px rgba(0, 139, 180, 0.39);
+    border-radius: 100%;
 }
 .right-part {
-    width: 100px;
+    width: 61px;
     position: absolute;
     bottom: 20px;
-    right: 0px;
+    right: 39px;
     z-index: 1;
-    opacity: .3;
+    box-shadow: 0px 17.85px 25.44px 0px rgba(0, 139, 180, 0.39);
+    border-radius: 100%;
 }
 .bottom-part {
-    width: 100px;
+    width: 61px;
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
-    opacity: .3;
+    box-shadow: 0px 17.85px 25.44px 0px rgba(0, 139, 180, 0.39);
+    border-radius: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+.bottom-help {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+    pointer-events: none;
 }
