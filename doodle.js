@@ -1,7 +1,7 @@
 const DOODLE_WIDTH=40;
 const DOODLE_HEIGHT=40;
 
-
+const canvasElement = document.querySelector('canvas');
 
 var collisionMode=1;
 
@@ -29,18 +29,15 @@ class Doodle
     
     
     drawDoodle(player,leftRight){
+        this.context.imageSmoothingQuality = 'high';
+        this.context.imageSmoothingEnabled = true;
         this.player=player;
         let doodleWidthOffset=17
         if(leftRight==2){
-            
-            this.context.drawImage(this.player,this.x,this.y,this.width-doodleWidthOffset,this.height);    
+            this.context.drawImage(this.player,this.x,this.y,(this.width-doodleWidthOffset),(this.height));    
         }
         else{
-            // this.context.beginPath();
-            // this.context.fillStyle='red';
-            // this.context.fillRect(this.x,this.y,this.width,this.height);
-            // this.context.closePath();
-        this.context.drawImage(this.player,this.x,this.y,this.width,this.height);
+        this.context.drawImage(this.player,this.x,this.y,(this.width),(this.height));
         }
     }
 
