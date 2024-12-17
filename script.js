@@ -110,6 +110,15 @@ class GAME
             pausePlay.style.display='block';
             instructions.style.display='none';
             mobileInstruction.style.display='none';
+
+
+            const scaleFactor = 2;
+            this.canvas.width = window.innerWidth * scaleFactor;
+            this.canvas.height = window.innerHeight * scaleFactor;
+            this.canvas.style.width = '100%';
+            this.canvas.style.height = '100%';
+            this.context.scale(scaleFactor, scaleFactor);
+
             this.init();
             this.newCanvas();
             this.gameLoop();

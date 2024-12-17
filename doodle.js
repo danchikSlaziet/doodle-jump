@@ -24,7 +24,6 @@ class Doodle
         this.direction='isFalling'; //whether doodle going up or down flag
         this.offset=0.1;
         this.collisionMode=collisionMode;
-        
     }
     
     
