@@ -2,18 +2,18 @@ var bodyContainer=document.getElementById('body-container');
 var pauseContainer=document.getElementById('pause-container');
 var resume=document.getElementById('resume');
 var element=document.getElementById('body-canvas');
-var startPage=document.getElementById('startpage');
+// var startPage=document.getElementById('startpage');
 var playOn=document.getElementById('startplay');
 var pausePlay=document.getElementById('pausePlay');
 var instructions=document.getElementById('pcinstruction');
 var mobileInstruction=document.getElementById('mobileinstruction');
 const CANVAS_HEIGHT=window.innerHeight;
-const CANVAS_WIDTH=window.innerWidth > 500? 500: window.innerWidth;
-startPage.querySelector('img').width=CANVAS_WIDTH;
-startPage.querySelector('img').height=CANVAS_HEIGHT;
+const CANVAS_WIDTH=window.innerWidth;
+// startPage.querySelector('img').width=CANVAS_WIDTH;
+// startPage.querySelector('img').height=CANVAS_HEIGHT;
 pauseContainer.querySelector('img').width=CANVAS_WIDTH;
 pauseContainer.querySelector('img').height=CANVAS_HEIGHT;
-startPage.style.height=CANVAS_HEIGHT;
+// startPage.style.height=CANVAS_HEIGHT;
 
 
 function getRandom(min,max)
@@ -94,7 +94,7 @@ class GAME
             localStorage.setItem('Doodle','0');
         }
         bodyContainer.style.display='none';
-        startPage.style.display='block';
+        // startPage.style.display='block';
         if(CANVAS_WIDTH<500)
         {
         mobileInstruction.style.display='block';
@@ -105,7 +105,7 @@ class GAME
         }
         playOn.onclick=()=>
         {
-            startPage.style.display='none';
+            // startPage.style.display='none';
             bodyContainer.style.display='block';
             pausePlay.style.display='block';
             instructions.style.display='none';
@@ -115,8 +115,6 @@ class GAME
             const scaleFactor = 2;
             this.canvas.width = window.innerWidth * scaleFactor;
             this.canvas.height = window.innerHeight * scaleFactor;
-            this.canvas.style.width = '100%';
-            this.canvas.style.height = '100%';
             this.context.scale(scaleFactor, scaleFactor);
 
             this.init();
@@ -384,7 +382,7 @@ class GAME
         this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
         this.context.fillStyle='black';     
         this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
-        this.context.drawImage(this.backgroundImage,0,0,this.canvas.width,this.canvas.height);
+        this.context.drawImage(this.backgroundImage,0,0,this.canvas.width/2,this.canvas.height/2);
     }
 
     
@@ -1365,19 +1363,18 @@ ctx.canvas.height=CANVAS_HEIGHT;
 
 function assetsLoadingLoop(callback) {
 
-    loadedPercent=((numAssets-assetsStillLoading)/numAssets)*100;
-    ctx.beginPath();
-    ctx.fillStyle='black';
-    ctx.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
-    ctx.textAlign="center";
-    ctx.fillStyle='white';
-    ctx.font="30px Doodle";
-    ctx.fillText('Loading.....',CANVAS_WIDTH/2,CANVAS_HEIGHT/2);
-    ctx.fillStyle='#2dd';
-    ctx.font="30px Doodle";
-    ctx.fillText(`${parseInt(loadedPercent)}%`,CANVAS_WIDTH/2,CANVAS_HEIGHT/2+40);
-    ctx.beginPath();
-    //console.log(assetsStillLoading);
+    // loadedPercent=((numAssets-assetsStillLoading)/numAssets)*100;
+    // ctx.beginPath();
+    // ctx.fillStyle='black';
+    // ctx.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
+    // ctx.textAlign="center";
+    // ctx.fillStyle='white';
+    // ctx.font="30px Doodle";
+    // ctx.fillText('Loading.....',CANVAS_WIDTH/2,CANVAS_HEIGHT/2);
+    // ctx.fillStyle='#2dd';
+    // ctx.font="30px Doodle";
+    // ctx.fillText(`${parseInt(loadedPercent)}%`,CANVAS_WIDTH/2,CANVAS_HEIGHT/2+40);
+    // ctx.beginPath();
 
     if(assetsStillLoading == 0){
         console.log('assetsStillLoading == 0')
@@ -1465,3 +1462,114 @@ loadAssets(() => {
 
 });
 
+
+
+
+
+const loadingPage = document.querySelector('.loading-page');
+const mainPage = document.querySelector('.main-page');
+
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        loadingPage.classList.add('loading-page_disable');
+        mainPage.classList.add('main-page_active');
+    }, 2500);
+    const swiper = new Swiper('.choose-swiper', {
+        // Optional parameters
+        direction: 'horizontal',
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        loop: false,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+    });
+});
+
+let currentHeroId = 1;
+let currentSwiperClick;
+const friendsInvited = 4;
+
+const popupOpen = document.querySelector('.popup-open');
+const heroesMain = document.querySelectorAll('.main-swiper__item');
+
+popupOpen.querySelector('.popup-open__chose-btn').addEventListener("click", () => {
+    popupOpen.classList.remove('popup-open_active');
+    heroesMain.forEach((hero) => {
+        hero.classList.remove("main-swiper__item_choose");
+    })
+    heroesMain.forEach((hero) => {
+        if (hero.dataset.swiperId == currentHeroId) {
+            hero.classList.add("main-swiper__item_choose");
+            switch (hero.dataset.swiperId) {
+                case "1":
+                    document.querySelector('.main-page__jumper-hero').src = './images/swiper-martirosyan.png';
+                    break;
+                case "2":
+                    document.querySelector('.main-page__jumper-hero').src = './images/swiper-buldog.png';
+                    break;
+                case "3":
+                    document.querySelector('.main-page__jumper-hero').src = './images/swiper-maslov.png';
+                    break;
+                case "4":
+                    document.querySelector('.main-page__jumper-hero').src = './images/swiper-kuzya.png';
+                    break;
+                case "5":
+                    document.querySelector('.main-page__jumper-hero').src = './images/swiper-galustyan.png';
+                    break;
+                default:
+                    break;
+            }
+        }
+    })
+})
+popupOpen.querySelector('.popup-open__close-btn').addEventListener("click", () => {
+    popupOpen.classList.remove('popup-open_active');
+})
+
+heroesMain.forEach(hero => {
+    hero.addEventListener('click', () => {
+        currentSwiperClick = hero.dataset.swiperId;
+        if (!hero.className.includes('choose')) {
+            currentHeroId = hero.dataset.swiperId;
+            popupOpen.classList.add("popup-open_active");
+            switch (hero.dataset.swiperId) {
+                case "1":
+                    popupOpen.querySelector('.popup-open__hero').src = './images/swiper-martirosyan.png';
+                    popupOpen.querySelector('.popup-open__title').textContent = 'МАРТИРОСЯН';
+                    break;
+                case "2":
+                    popupOpen.querySelector('.popup-open__hero').src = './images/swiper-buldog.png';
+                    popupOpen.querySelector('.popup-open__title').textContent = 'БУЛЬДОГ';
+                    break;
+                case "3":
+                    popupOpen.querySelector('.popup-open__hero').src = './images/swiper-maslov.png';
+                    popupOpen.querySelector('.popup-open__title').textContent = 'МАСЛОВ';
+                    break;
+                case "4":
+                    popupOpen.querySelector('.popup-open__hero').src = './images/swiper-kuzya.png';
+                    popupOpen.querySelector('.popup-open__title').textContent = 'КУЗЯ';
+                    break;
+                case "5":
+                    popupOpen.querySelector('.popup-open__hero').src = './images/swiper-galustyan.png';
+                    popupOpen.querySelector('.popup-open__title').textContent = 'ГАЛУСТЯН';
+                    break;
+                default:
+                    break;
+            }
+        } 
+    });
+    if (hero.className.includes('choose')) {
+        hero.querySelector('.main-swiper__item-button-text').textContent = 'ВЫБРАН';
+    }
+});
+
+const navbarItems = document.querySelectorAll(".navbar__item");
+
+navbarItems.forEach(navbarItem => {
+    navbarItem.addEventListener('click', (evt) => {
+        navbarItems.forEach(navbarItem => navbarItem.classList.remove('navbar__item_active'));
+        navbarItem.classList.add("navbar__item_active");
+    })
+})
