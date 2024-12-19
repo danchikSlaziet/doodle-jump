@@ -1528,18 +1528,16 @@ function assetsLoadingLoop(callback) {
     // ctx.beginPath();
 
     if(assetsStillLoading == 0){
-        console.log('assetsStillLoading == 0')
         callback();
         window.cancelAnimationFrame(assetsLoader);
     }else{
-        console.log('assetsStillLoading != 0')
         assetsLoader = window.requestAnimationFrame(()=>assetsLoadingLoop(callback));
     }
 }
 
-function loadAssets(callback) 
+function loadAssets(callback, hero = 'martirosyan') 
 {     //once this function finishes to load all assets this callback function gets activated
-
+    console.log(hero)
     function loadSprite(fileName) {
       assetsStillLoading++;
   
@@ -1585,16 +1583,22 @@ function loadAssets(callback)
   //Sprite loading.
   SPRITES.background=loadSprite('images/bck.png');
   SPRITES.potHole=loadSprite('images/hole.png');
-  SPRITES.player=loadSprite('images/blue-lik-right.png');
-  SPRITES.playerLeft=loadSprite('images/blue-lik-left.png');
-  SPRITES.playerUp=loadSprite('images/blue-lik-up.png');
+  SPRITES.player=loadSprite(`images/blue-lik-right-${hero}.png`);
+//   if (hero == 'buldog') {
+//     SPRITES.playerLeft=loadSprite('images/blue-lik-left-buldog.png');
+//   }
+//   else {
+//     SPRITES.playerLeft=loadSprite('images/blue-lik-left.png');
+//   }
+  SPRITES.playerLeft=loadSprite(`images/blue-lik-left-${hero}.png`);
+  SPRITES.playerUp=loadSprite(`images/blue-lik-up-${hero}.png`);
   SPRITES.uglyEnemy=loadSprite('images/blue_monster.png');
   SPRITES.flyingEnemy=loadSprite('images/blue_flying_monster_1.png');
   SPRITES.purpleEnemy=loadSprite('images/purple_monster.png');
   SPRITES.booster1=loadSprite('images/trampoline_platform.png');
   SPRITES.booster2=loadSprite('images/spring_platform.png');
   SPRITES.booster3=loadSprite('images/jetpack.png');
-  SPRITES.boosterJetpack=loadSprite('images/doodle_jetpack.png');
+  SPRITES.boosterJetpack=loadSprite(`images/doodle_jetpack-${hero}.png`);
   SPRITES.drinkingGlass=loadSprite('images/potion_grey.png');
   SPRITES.healthReinstate=loadSprite('images/potion_green_notap.png');
   SPRITES.greenPlatform=loadSprite('images/green_platform.png');
@@ -1607,11 +1611,10 @@ function loadAssets(callback)
     assetsLoadingLoop(callback); 
 }  
 
-loadAssets(() => {
-
-    new GAME(element);
-
-});
+// loadAssets(() => {
+//     new GAME(element);
+// });
+loadAssets(() => new GAME(element), );
 
 
 
@@ -1676,18 +1679,23 @@ popupOpen.querySelector('.popup-open__chose-btn').addEventListener("click", () =
             switch (hero.dataset.swiperId) {
                 case "1":
                     document.querySelector('.main-page__jumper-hero').src = './images/swiper-martirosyan.png';
+                    loadAssets(() => new GAME(element), 'martirosyan');
                     break;
                 case "2":
                     document.querySelector('.main-page__jumper-hero').src = './images/swiper-buldog.png';
+                    loadAssets(() => new GAME(element), 'buldog');
                     break;
                 case "3":
                     document.querySelector('.main-page__jumper-hero').src = './images/swiper-maslov.png';
+                    loadAssets(() => new GAME(element), 'maslov');
                     break;
                 case "4":
                     document.querySelector('.main-page__jumper-hero').src = './images/swiper-kuzya.png';
+                    loadAssets(() => new GAME(element), 'kuzya');
                     break;
                 case "5":
                     document.querySelector('.main-page__jumper-hero').src = './images/swiper-galustyan.png';
+                    loadAssets(() => new GAME(element), 'galustyan');
                     break;
                 default:
                     break;
