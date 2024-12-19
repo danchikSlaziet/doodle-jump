@@ -103,13 +103,15 @@ class GAME
         {
             instructions.style.display='block';
         }
-        playOn.onclick=()=>
+        document.querySelector('.main__start-game').onclick=()=>
         {
             // startPage.style.display='none';
             bodyContainer.style.display='block';
             pausePlay.style.display='block';
             instructions.style.display='none';
             mobileInstruction.style.display='none';
+
+            document.querySelector('.main-page').classList.remove('main-page_active');
 
 
             const scaleFactor = 2;
@@ -120,6 +122,13 @@ class GAME
             this.init();
             this.newCanvas();
             this.gameLoop();
+            // this.status = 'notPlaying';
+            cancelAnimationFrame(this.animator);
+            document.querySelector('.instr-popup__close').addEventListener('click', () => {
+                // this.status = "isPlaying";
+                requestAnimationFrame(()=>this.gameLoop())
+                document.querySelector('.instr-popup').classList.remove('instr-popup_active');
+            })
         }
         
 
@@ -511,22 +520,24 @@ class GAME
         
         pausePlay.onclick=()=>{
             
-            if(this.status=='isPlaying')
-            {
-                this.status='notPlaying';
-                bodyContainer.style.display='none';
-                pauseContainer.style.display='block';
-            }
+            // if(this.status=='isPlaying')
+            // {
+            //     this.status='notPlaying';
+            //     bodyContainer.style.display='none';
+            //     pauseContainer.style.display='block';
+            // }
+            cancelAnimationFrame(this.animator);
             
         }
 
-        resume.onclick=()=>{
-            if(this.status=='notPlaying')
-            {
-                bodyContainer.style.display='block';
-                pauseContainer.style.display='none';
-                this.status='isPlaying';
-            }
+        document.querySelector('.bottom-part').onclick=()=>{
+            // if(this.status=='notPlaying')
+            // {
+            //     bodyContainer.style.display='block';
+            //     pauseContainer.style.display='none';
+            //     this.status='isPlaying';
+            // }
+            requestAnimationFrame(()=>this.gameLoop())
         }
         var currentTimer=new Date();
         
@@ -1345,6 +1356,35 @@ class GAME
 
         
     }
+    // else if (this.status=='notPlaying') {
+    //     for(let i=0;i<this.platformArray.length;++i)
+    //         {
+    //             this.platformArray[i].drawPlatform();
+                
+    //         }
+        
+    //     for(let i=0;i<this.platformArray.length;++i)
+    //     {
+    //         this.platformArray[i].platformSpeed(this.score);
+    //         this.platformArray[i].movePlatform();
+            
+    //     }
+    //     if(this.leftRight==1)
+    //         {
+    //             this.doodle.drawDoodle(this.playerLeft,this.leftRight);
+                
+    //         }
+        
+    //         else if(this.leftRight==0)
+    //         {
+    //             this.doodle.drawDoodle(this.player,this.leftRight);
+    //         }
+
+    //         else if(this.leftRight==2)
+    //         {
+    //             this.doodle.drawDoodle(this.playerUp,this.leftRight);
+    //         }
+    // }
     
 }
 
@@ -1474,7 +1514,7 @@ window.addEventListener('DOMContentLoaded', () => {
         loadingPage.classList.add('loading-page_disable');
         mainPage.classList.add('main-page_active');
     }, 2500);
-    const swiper = new Swiper('.choose-swiper', {
+    const mainSwiper = new Swiper('.choose-swiper', {
         // Optional parameters
         direction: 'horizontal',
         slidesPerView: 'auto',
@@ -1485,22 +1525,42 @@ window.addEventListener('DOMContentLoaded', () => {
           prevEl: '.swiper-button-prev',
         },
     });
+    const ratingSwiper = new Swiper('.rating-swiper', {
+        // Optional parameters
+        direction: 'horizontal',
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        loop: false,
+    });
 });
 
 let currentHeroId = 1;
 let currentSwiperClick;
 const friendsInvited = 4;
 
+const rating = document.querySelector('.rating');
+const friends = document.querySelector(".friends");
+const mainPageGame = mainPage.querySelector('.main-page__game')
+const navbarItems = document.querySelectorAll('.navbar__item');
 const popupOpen = document.querySelector('.popup-open');
 const heroesMain = document.querySelectorAll('.main-swiper__item');
+
+const ratingBack = document.querySelector('.rating__back-arrow');
+const friendsBack = document.querySelector('.friends__back-arrow');
+
+const startGameButton = document.querySelector('.main__start-game');
 
 popupOpen.querySelector('.popup-open__chose-btn').addEventListener("click", () => {
     popupOpen.classList.remove('popup-open_active');
     heroesMain.forEach((hero) => {
         hero.classList.remove("main-swiper__item_choose");
+        hero.querySelector('.main-swiper__item-button-text').textContent = 'ПОДРОБНЕЕ';
     })
     heroesMain.forEach((hero) => {
-        if (hero.dataset.swiperId == currentHeroId) {
+        if (hero.dataset.swiperId == currentSwiperClick) {
+            currentHeroId = hero.dataset.swiperId;
+            console.log(`currentHeroId: ${currentHeroId}`)
+            hero.querySelector('.main-swiper__item-button-text').textContent = 'ВЫБРАН';
             hero.classList.add("main-swiper__item_choose");
             switch (hero.dataset.swiperId) {
                 case "1":
@@ -1532,28 +1592,33 @@ heroesMain.forEach(hero => {
     hero.addEventListener('click', () => {
         currentSwiperClick = hero.dataset.swiperId;
         if (!hero.className.includes('choose')) {
-            currentHeroId = hero.dataset.swiperId;
+            // currentHeroId = hero.dataset.swiperId;
             popupOpen.classList.add("popup-open_active");
             switch (hero.dataset.swiperId) {
                 case "1":
                     popupOpen.querySelector('.popup-open__hero').src = './images/swiper-martirosyan.png';
                     popupOpen.querySelector('.popup-open__title').textContent = 'МАРТИРОСЯН';
+                    popupOpen.querySelector('.popup-open__subtitle').innerHTML = `Ради конфетки<br>готов на всё`;
                     break;
                 case "2":
                     popupOpen.querySelector('.popup-open__hero').src = './images/swiper-buldog.png';
                     popupOpen.querySelector('.popup-open__title').textContent = 'БУЛЬДОГ';
+                    popupOpen.querySelector('.popup-open__subtitle').innerHTML = `Не любит прыгать,<br>но тут придётся`;
                     break;
                 case "3":
                     popupOpen.querySelector('.popup-open__hero').src = './images/swiper-maslov.png';
                     popupOpen.querySelector('.popup-open__title').textContent = 'МАСЛОВ';
+                    popupOpen.querySelector('.popup-open__subtitle').innerHTML = `Ждет награду в виде<br>пиццы вконце`;
                     break;
                 case "4":
                     popupOpen.querySelector('.popup-open__hero').src = './images/swiper-kuzya.png';
                     popupOpen.querySelector('.popup-open__title').textContent = 'КУЗЯ';
+                    popupOpen.querySelector('.popup-open__subtitle').innerHTML = `Думает, что в конце<br>покажут мультик`;
                     break;
                 case "5":
                     popupOpen.querySelector('.popup-open__hero').src = './images/swiper-galustyan.png';
                     popupOpen.querySelector('.popup-open__title').textContent = 'ГАЛУСТЯН';
+                    popupOpen.querySelector('.popup-open__subtitle').innerHTML = `Ждет награду в виде<br>пиццы вконце`;
                     break;
                 default:
                     break;
@@ -1565,11 +1630,64 @@ heroesMain.forEach(hero => {
     }
 });
 
-const navbarItems = document.querySelectorAll(".navbar__item");
-
 navbarItems.forEach(navbarItem => {
     navbarItem.addEventListener('click', (evt) => {
         navbarItems.forEach(navbarItem => navbarItem.classList.remove('navbar__item_active'));
         navbarItem.classList.add("navbar__item_active");
+        if (navbarItem.dataset.itemId == 1) {
+            mainPageGame.classList.add('main-page__game_active');
+            rating.classList.remove('rating_active');
+            friends.classList.remove('friends_active');
+        }
+        if (navbarItem.dataset.itemId == 2) {
+            mainPageGame.classList.remove('main-page__game_active');
+            rating.classList.add('rating_active');
+            friends.classList.remove('friends_active');
+        }
+        if (navbarItem.dataset.itemId == 3) {
+            mainPageGame.classList.remove('main-page__game_active');
+            rating.classList.remove('rating_active');
+            friends.classList.add('friends_active');
+        }
+        document.body.querySelector('.main-page').scrollTo({top: 0, behavior: 'smooth'});
+    })
+});
+
+ratingBack.addEventListener("click", (evt) => {
+    document.body.querySelector('.main-page').scrollTo({top: 0, behavior: 'smooth'});
+    mainPageGame.classList.add('main-page__game_active');
+    rating.classList.remove('rating_active');
+    navbarItems.forEach((item, index) => {
+        console.log(index)
+        if (index == 0) {
+            item.classList.add("navbar__item_active");
+        }
+        else {
+            item.classList.remove("navbar__item_active");
+        }
+    })
+});
+friendsBack.addEventListener("click", (evt) => {
+    document.body.querySelector('.main-page').scrollTo({top: 0, behavior: 'smooth'});
+    mainPageGame.classList.add('main-page__game_active');
+    friends.classList.remove('friends_active');
+    navbarItems.forEach((item, index) => {
+        console.log(index)
+        if (index == 0) {
+            item.classList.add("navbar__item_active");
+        }
+        else {
+            item.classList.remove("navbar__item_active");
+        }
+    })
+});
+const ratingItems = document.querySelectorAll('.rating-swiper__item');
+
+ratingItems.forEach(ratingItem => {
+    ratingItem.addEventListener("click", () => {
+        ratingItems.forEach(ratingItem => {
+            ratingItem.classList.remove('rating-swiper__item_choose')
+        });
+        ratingItem.classList.add("rating-swiper__item_choose");
     })
 })
