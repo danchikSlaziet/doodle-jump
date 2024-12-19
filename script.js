@@ -90,9 +90,9 @@ class GAME
     setUp()
     {
     
-        if(localStorage.getItem('Doodle')==null){
-            localStorage.setItem('Doodle','0');
-        }
+        // if(localStorage.getItem('Doodle')==null){
+        //     localStorage.setItem('Doodle','0');
+        // }
         bodyContainer.style.display='none';
         // startPage.style.display='block';
         if(CANVAS_WIDTH<500)
@@ -103,6 +103,38 @@ class GAME
         {
             instructions.style.display='block';
         }
+        document.querySelector('.end-popup__continiue-game').onclick=()=>
+            {
+                document.querySelector('.end-popup').classList.remove('end-popup_active');
+                this.boosterTypes=[];
+                this.boosterArray=[];
+                this.platformArray=[];
+                this.animatingPlatformArray = [];
+                this.yStorage=[];       //storing the y-value of platforms to avoid multiple platforms creation in same row.
+                this.score=0;
+                this.bonusScore=0;
+                this.bullet=0;
+                this.bulletArray=[];
+                this.platformTypes=[];
+                this.obstacleArray=[];
+                this.leftRight=0;
+                this.checkSum=0;
+                this.boosterCheck=0;
+                this.doodleXchange=0;
+                this.spacePressed=0;
+                this.enemyBulletArray=[];
+                this.startTime=0;
+                this.currentTime=0;
+                this.loopCount=0;
+                this.chance=3;
+                this.drunkenMode=0;
+                pausePlay.style.display='block';
+                this.theta=[]; 
+                this.status='isPlaying';
+                this.init();
+                this.newCanvas();
+                this.gameLoop();
+            }
         document.querySelector('.main__start-game').onclick=()=>
         {
             // startPage.style.display='none';
@@ -119,16 +151,58 @@ class GAME
             this.canvas.height = window.innerHeight * scaleFactor;
             this.context.scale(scaleFactor, scaleFactor);
 
+
+
+            this.boosterTypes=[];
+            this.boosterArray=[];
+            this.platformArray=[];
+            this.animatingPlatformArray = [];
+            this.yStorage=[];       //storing the y-value of platforms to avoid multiple platforms creation in same row.
+            this.score=0;
+            this.bonusScore=0;
+            this.bullet=0;
+            this.bulletArray=[];
+            this.platformTypes=[];
+            this.obstacleArray=[];
+            this.leftRight=0;
+            this.checkSum=0;
+            this.boosterCheck=0;
+            this.doodleXchange=0;
+            this.spacePressed=0;
+            this.enemyBulletArray=[];
+            this.startTime=0;
+            this.currentTime=0;
+            this.loopCount=0;
+            this.chance=3;
+            this.drunkenMode=0;
+            pausePlay.style.display='block';
+            this.theta=[]; 
+            this.status='isPlaying';
+
+            document.querySelector('.top-bar__pause').src = './images/top-bar-pause.png';
+            // this.setUp();
+
             this.init();
             this.newCanvas();
             this.gameLoop();
+            
             // this.status = 'notPlaying';
-            cancelAnimationFrame(this.animator);
-            document.querySelector('.instr-popup__close').addEventListener('click', () => {
-                // this.status = "isPlaying";
-                requestAnimationFrame(()=>this.gameLoop())
+            if (localStorage.getItem('instruction') == 'passed') {
                 document.querySelector('.instr-popup').classList.remove('instr-popup_active');
-            })
+                document.querySelector('.left-part').style.zIndex = '10';
+                document.querySelector('.right-part').style.zIndex = '10';
+                document.querySelector('.bottom-part').style.zIndex = '10';
+            }
+            else {
+                document.querySelector('.instr-popup').classList.add('instr-popup_active');
+                cancelAnimationFrame(this.animator);
+                document.querySelector('.instr-popup__close').addEventListener('click', () => {
+                    localStorage.setItem('instruction', 'passed');
+                    // this.status = "isPlaying";
+                    requestAnimationFrame(()=>this.gameLoop())
+                    document.querySelector('.instr-popup').classList.remove('instr-popup_active');
+                })
+            }
         }
         
 
@@ -518,7 +592,7 @@ class GAME
         })
 
         
-        pausePlay.onclick=()=>{
+        document.querySelector('.top-bar__pause').onclick=()=>{
             
             // if(this.status=='isPlaying')
             // {
@@ -526,17 +600,22 @@ class GAME
             //     bodyContainer.style.display='none';
             //     pauseContainer.style.display='block';
             // }
-            cancelAnimationFrame(this.animator);
-            
+            if (!document.querySelector('.pause-popup').className.includes('active')) {
+                document.querySelector('.pause-popup').classList.add('pause-popup_active');
+                document.querySelector('.top-bar__pause').src = './images/play-icon.png';
+                cancelAnimationFrame(this.animator);
+            }
         }
 
-        document.querySelector('.bottom-part').onclick=()=>{
+        document.querySelector('.pause-popup__continiue-game').onclick=()=>{
             // if(this.status=='notPlaying')
             // {
             //     bodyContainer.style.display='block';
             //     pauseContainer.style.display='none';
             //     this.status='isPlaying';
             // }
+            document.querySelector('.top-bar__pause').src = './images/top-bar-pause.png';
+            document.querySelector('.pause-popup').classList.remove('pause-popup_active');
             requestAnimationFrame(()=>this.gameLoop())
         }
         var currentTimer=new Date();
@@ -893,47 +972,50 @@ class GAME
       
     gameOver()
     {
+        console.log('game over');
         this.status='notPlaying';
         pausePlay.style.display='none';
         //this.clearRect()
         cancelAnimationFrame(this.animator);
         // this.enemySiren.pause();
         // this.enemySiren.currentTime=0;
-        if(this.score>localStorage.getItem('Doodle')){
+        // if(this.score>localStorage.getItem('Doodle')){
             
             
-            localStorage.removeItem('Doodle');
-            localStorage.setItem('Doodle',`${this.score}`);
+        //     localStorage.removeItem('Doodle');
+        //     localStorage.setItem('Doodle',`${this.score}`);
            
-        }
+        // }
         this.playAgain=document.getElementById('playagain');
         
         
-        this.playAgain.style.display='block';
+        // this.playAgain.style.display='block';
         this.context.save();
-        this.context.font="30px Doodle";
-        this.context.fillStyle='blue';
-        this.context.textAlign='center';
-        this.context.fillText(`Score: ${this.score}`,CANVAS_WIDTH/2,250);
-        this.context.font="30px Doodle";
-        this.context.fillStyle='blue';
-        this.context.textAlign='center';
-        this.context.fillText(`Bonus: ${this.bonusScore}`,CANVAS_WIDTH/2,290);
-        this.context.font="30px Doodle";
-        this.context.fillStyle='blue';
-        this.context.textAlign='center';
-        this.context.fillText(`Total: ${this.bonusScore+this.score}`,CANVAS_WIDTH/2,330);
-        this.context.font="30px Doodle";
-        this.context.fillStyle='blue';
-        this.context.textAlign='center';
-        this.context.fillText('High Score: '+localStorage.getItem('Doodle'),CANVAS_WIDTH/2,370);
+        // this.context.font="30px Doodle";
+        // this.context.fillStyle='blue';
+        // this.context.textAlign='center';
+        // this.context.fillText(`Score: ${this.score}`,CANVAS_WIDTH/2,250);
+        // this.context.font="30px Doodle";
+        // this.context.fillStyle='blue';
+        // this.context.textAlign='center';
+        // this.context.fillText(`Bonus: ${this.bonusScore}`,CANVAS_WIDTH/2,290);
+        // this.context.font="30px Doodle";
+        // this.context.fillStyle='blue';
+        // this.context.textAlign='center';
+        // this.context.fillText(`Total: ${this.bonusScore+this.score}`,CANVAS_WIDTH/2,330);
+        // this.context.font="30px Doodle";
+        // this.context.fillStyle='blue';
+        // this.context.textAlign='center';
+        // this.context.fillText('High Score: '+localStorage.getItem('Doodle'),CANVAS_WIDTH/2,370);
         this.context.restore();
-        this.playAgain.onclick=()=>
-        {
-            this.playAgain.style.display='none';
-            this.restartGame();
+        document.querySelector('.end-popup').classList.add('end-popup_active');
+        // document.querySelector('.end-popup__continiue-game').onclick=()=>
+        // {
+        //     this.playAgain.style.display='none';
+        //     document.querySelector('.end-popup').classList.remove('end-popup_active');
+        //     this.restartGame();
            
-        }
+        // }
         
     }
 
@@ -989,18 +1071,47 @@ class GAME
 
         if(this.status=='isPlaying')
         {
-            
-            this.context.fillStyle='rgba(192,192,192,0.7)';
-            this.context.fillRect(0,0,CANVAS_WIDTH,50);
-            this.context.font="30px Doodle";
-            this.context.fillStyle='red';
-            this.context.fillText(`${this.score}`,20,34);
-            this.context.font="20px Doodle";
-            this.context.fillStyle='black';
-            this.context.fillText(`Chance: ${this.chance}`,75,32);
-            this.context.font="20px Doodle";
-            this.context.fillStyle='black';
-            this.context.fillText(`Bonus Score: ${this.bonusScore}`,160,32);
+            document.querySelector('.top-bar__score').textContent = this.score;
+            document.querySelectorAll('.top-bar__heart').forEach((heart, index) => {
+                if (this.chance == 3) {
+                    heart.style.opacity = 1;
+                }
+                else if (this.chance == 2) {
+                    if (index == 2) {
+                        heart.style.opacity = .5;
+                    }
+                }
+                else if (this.chance == 1) {
+                    if (index == 1) {
+                        heart.style.opacity = .5;
+                    }
+                    if (index == 2) {
+                        heart.style.opacity = .5;
+                    }
+                }
+                else if (this.chance == 0) {
+                    if (index == 0) {
+                        heart.style.opacity = .5;
+                    }
+                    if (index == 1) {
+                        heart.style.opacity = .5;
+                    }
+                    if (index == 2) {
+                        heart.style.opacity = .5;
+                    }
+                }
+            })
+            // this.context.fillStyle='rgba(192,192,192,0.7)';
+            // this.context.fillRect(0,0,CANVAS_WIDTH,50);
+            // this.context.font="30px Doodle";
+            // this.context.fillStyle='red';
+            // this.context.fillText(`${this.score}`,20,34);
+            // this.context.font="20px Doodle";
+            // this.context.fillStyle='black';
+            // this.context.fillText(`Chance: ${this.chance}`,75,32);
+            // this.context.font="20px Doodle";
+            // this.context.fillStyle='black';
+            // this.context.fillText(`Bonus Score: ${this.bonusScore}`,160,32);
             
             for(let i=0;i<this.platformArray.length;++i)
             {
@@ -1347,9 +1458,9 @@ class GAME
             this.context.save();
             this.context.font="15px Arial";
             var fontY=70;
-            this.context.textAlign='center';
-            this.context.fillStyle='blue';
-            this.context.fillText("Drunk Mode",CANVAS_WIDTH/2,fontY);
+            // this.context.textAlign='center';
+            // this.context.fillStyle='blue';
+            // this.context.fillText("Drunk Mode",CANVAS_WIDTH/2,fontY);
             this.context.restore();
         }
 
@@ -1690,4 +1801,17 @@ ratingItems.forEach(ratingItem => {
         });
         ratingItem.classList.add("rating-swiper__item_choose");
     })
+});
+
+
+document.querySelector('.pause-popup__main-screen').addEventListener('click', () => {
+    document.querySelector('.pause-popup').classList.remove('pause-popup_active');
+    document.getElementById('body-container').style.display = 'none';
+    mainPage.classList.add('main-page_active');
+});
+
+document.querySelector('.end-popup__main-screen').addEventListener('click', () => {
+    document.querySelector('.end-popup').classList.remove('end-popup_active');
+    document.getElementById('body-container').style.display = 'none';
+    mainPage.classList.add('main-page_active');
 })

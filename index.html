@@ -436,7 +436,25 @@
         </div>
     </div>
     <div id='body-container'>
-        <div class="instr-popup instr-popup_active">
+        <div class="top-bar">
+            <img class="top-bar__bg" src="./images/game-top-bg.png" alt="">
+            <div class="top-bar__content">
+                <div class="top-bar__hearts">
+                    <img class="top-bar__heart" src="./images/top-bar-heart.svg" alt="">
+                    <img class="top-bar__heart" src="./images/top-bar-heart.svg" alt="">
+                    <img class="top-bar__heart" src="./images/top-bar-heart.svg" alt="">
+                </div>
+                <div class="top-bar__score">
+                    12 474
+                </div>
+                <img class="top-bar__pause" src="./images/top-bar-pause.png" alt="">
+            </div>
+        </div>
+        <div class="instr-popup">
+            <img class="instr-popup__left-text" src="./images/instr-left.png" alt="">
+            <img class="instr-popup__right-text" src="./images/instr-right.png" alt="">
+            <img class="instr-popup__center-text" src="./images/instr-center.png" alt="">
+            <img class="instr-popup__close-text" src="./images/instr-close-text.png" alt="">
             <img class="instr-popup__close" src="./images/close-instr.png" alt="">
             <div class="instr-popup__centered-text">
                 <p class="instr-popup__title">
@@ -448,10 +466,69 @@
                 </p>
             </div>
         </div>
+        <div class="end-popup">
+            <img class="main-page__bg" src="images/main-img.png" alt="">
+            <div class="end-popup__content">
+                <img class="end-popup__img" src="./images/end-popup-img.png" alt="">
+                <p class="end-popup__text">
+                    Текст проигрышного<br>
+                    экрана в две строки
+                </p>
+                <div class="end-popup__info">
+                    <div class="end-popup__score">
+                        <p class="end-popup__score-text">
+                            счёт
+                        </p>
+                        <p class="end-popup__score-count">
+                            12474
+                        </p>
+                    </div>
+                    <div class="end-popup__best-score">
+                        <p class="end-popup__best-score-text">
+                            лучший
+                        </p>
+                        <p class="end-popup__best-score-count">
+                            12474
+                        </p>
+                    </div>
+                </div>
+                <div class="end-popup__record">
+                    <p class="end-popup__record-text">
+                        рекорд<br>
+                        мира
+                    </p>
+                    <p class="end-popup__record-count">
+                        1 000 000
+                    </p>
+                </div>
+                <div class="end-popup__elements">
+                    <div class="end-popup__continiue-game">
+                        <div class="end-popup__continiue-game-content">повторить попытку</div>
+                        <div class="end-popup__continiue-game-bg"></div>
+                    </div>
+                    <div class="end-popup__main-screen">
+                        главный экран
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pause-popup">
+            <img class="pause-popup__pause-icon" src="./images/pause-icon.png" alt="">
+            <div class="pause-popup__elements">
+                <img class="pause-popup__music" src="./images/pause-music-icon.png" alt="">
+                <div class="pause-popup__continiue-game">
+                    <div class="pause-popup__continiue-game-content">продолжить игру</div>
+                    <div class="pause-popup__continiue-game-bg"></div>
+                </div>
+                <div class="pause-popup__main-screen">
+                    главный экран
+                </div>
+            </div>
+        </div>
         <div id='pausePlay'>
             <img src='images/pause.png'>            
         </div>
-        <div id='playagain'>
+        <div style="display: none;" id='playagain'>
             <img src='images/play-again-on.png'>
         </div>
         <canvas id='body-canvas'>
