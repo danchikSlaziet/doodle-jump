@@ -4,7 +4,7 @@ class Obstacle{
         this.y=y;
         this.obstacle=obstacle;
         this.height=50;
-        this.width=50;
+        this.width=70;
         this.type=type;
         this.xSpeed=2.5;
         this.ySpeed=-1;

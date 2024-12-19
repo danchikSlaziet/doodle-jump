@@ -89,7 +89,6 @@ class GAME
 
     setUp()
     {
-    
         // if(localStorage.getItem('Doodle')==null){
         //     localStorage.setItem('Doodle','0');
         // }
@@ -1615,9 +1614,6 @@ function loadAssets(callback, hero = 'martirosyan')
 //     new GAME(element);
 // });
 loadAssets(() => new GAME(element), );
-
-
-
 
 
 const loadingPage = document.querySelector('.loading-page');

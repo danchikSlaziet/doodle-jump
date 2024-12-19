@@ -33,10 +33,10 @@ class Doodle
         this.player=player;
         let doodleWidthOffset=17
         if(leftRight==2){
-            this.context.drawImage(this.player,this.x,this.y,(this.width-doodleWidthOffset),(this.height));    
+            this.context.drawImage(this.player,this.x + 10,this.y,(this.width - 20),(this.height));
         }
         else{
-        this.context.drawImage(this.player,this.x,this.y,(this.width),(this.height));
+            this.context.drawImage(this.player,this.x,this.y,(this.width),(this.height));
         }
     }
 
